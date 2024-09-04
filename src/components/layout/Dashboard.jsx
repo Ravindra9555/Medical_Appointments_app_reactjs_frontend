@@ -234,7 +234,7 @@ const Dashboard = () => {
             position: "fixed",
             height: "100vh",
             overflowY: "auto",
-            backgroundColor: "#db9194",
+            backgroundColor:  "#8aefb5",
           }}
         >
           <SidebarNav />

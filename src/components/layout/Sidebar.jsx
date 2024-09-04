@@ -18,18 +18,7 @@ const SidebarNav = () => {
       url: "/doctormanagement",
       children: [],
     },
-    {
-      label: "Issue Medicine",
-      icon: "bi-capsule-pill",
-      url: "/issuemedicine",
-      children: [],
-    },
-    {
-      label: "Lab Tests",
-      icon: "bi-eyedropper",
-      url: "/labtest",
-      children: [],
-    },
+ 
     // {
     //   label: "Last two LAB Test",
     //   icon: "bi-grid",
