@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+*{
+    font-family: "Roboto Flex", sans-serif;
+    font-optical-sizing: auto;
+    /* font-weight:; */
+    font-style: normal;
+    font-variation-settings:
+      "slnt" 0,
+      "wdth" 100,
+      "GRAD" 0,
+      "XOPQ" 96,
+      "XTRA" 468,
+      "YOPQ" 79,
+      "YTAS" 750,
+      "YTDE" -203,
+      "YTFI" 738,
+      "YTLC" 514,
+      "YTUC" 712;  
+}
+
+/*  css for the vitals cards */
+.vital-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  
+  .vital-card {
+    flex: 1 1 calc(100% / 6 - 1rem);
+    max-width: calc(100% / 6 - 1rem);
+    min-width: 150px;
+  }
+  
+  @media (max-width: 1200px) {
+    .vital-card {
+      flex: 1 1 calc(100% / 4 - 1rem);
+      max-width: calc(100% / 4 - 1rem);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .vital-card {
+      flex: 1 1 calc(100% / 2 - 1rem);
+      max-width: calc(100% / 2 - 1rem);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .vital-card {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+  
+
+  /* ======================================================================================= */
+                    /*  lOGLIN pAGE WITH OTP AND  LOGIN WITH PASSWORD PAGE  */
+  /* ======================================================================================= */
+  
+  .login-container {
+    height: 100vh;
+    min-height: 600px;
+    width: 100%;
+    /* background-color: #dffcfa; */
+     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+   .border2{
+    border: 1px solid rgb(175, 175, 175);
+    border-left: 0px solid black;
+    border-radius: 0px 5px 5px 0px ;
+    
+   }
+   .border1{
+    border: 1px solid rgb(175, 175, 175);
+    border-right: 0px solid black;
+    border-radius: 5px 0px 0px 5px ;
+    
+   }
+  .login-box {
+    height: 400px;
+    min-height: 300px;
+    width: 700px;
+    border-radius: 20px;
+  }
+  
+  .logo-img {
+    max-height: 200px;
+    max-width: 200px;
+    /* background-color: #05ebd5; */
+  }
+  
+  .login-col-1 {
+    /* background-color: #19ccba; */
+    background-color: #e2a6a9;
+  }
+  
+  .eyebutton{
+    position: relative;
+    top:30px;
+    left: 280px;
+    width: 10px;
+   
+  }
+
+  .text-color{
+    color:#DB9194;
+  }
+  .background{
+    background-color: #DB9194;
+  }
+  #background{
+    background-color: #e2a6a9;
+  }
+
+  /*  remove cancel an ok button from calender  */
+  .css-19kok5i-MuiDialogActions-root{
+    display: none !important;
+  }
