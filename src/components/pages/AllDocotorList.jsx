@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { usePatient } from "../../context/PatientContext";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Loader from "../loader/Loader";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const TodayDoctor = [
   {
@@ -100,11 +102,11 @@ const columns = [
 //     selector: (row) => row.time,
 //     sortable: true,
 //   },
-  {
-    name: "Update Time",
-    selector: (row) => <><Link>Update</Link></>,
-    sortable: true,
-  },
+  // {
+  //   name: "Update Time",
+  //   selector: (row) => <><Link>Update</Link></>,
+  //   sortable: true,
+  // },
 ];
 
 const AllDocotorList = () => {
@@ -113,7 +115,30 @@ const AllDocotorList = () => {
   const [loading, setLoading] = useState(false);
   const { patient } = usePatient();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+   
+   const[allDoctorList, SetAllDcotorList]= useState([]);
+    useEffect(()=>{
+        // SetAllDcotorList(TodayDoctor);
+        // fetchAllDcors();
+    }, []);
 
+    const fetchAllDcors = async()=>{
+      try {
+        setLoading(true);
+       const res = await axios.get(`/api/`);
+        if(res.status===200){
+            SetAllDcotorList(res.data.data);
+            setLoading(false);
+        }
+      } catch (error) {
+         setLoading(false);
+        toast.error("Error: " + error.message);
+      }
+      finally{
+        setLoading(false);
+      }
+       
+    }
   const filteredItems = TodayDoctor.filter(
     (item) =>
       item.name.toLowerCase().includes(filterText.toLowerCase()) ||

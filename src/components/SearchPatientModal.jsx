@@ -159,20 +159,21 @@ const SearchPatientModal = ({ show, onClose }) => {
                   ></button>
                 </div>
                 {!patientList.length <= 0 ? (
+                  <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                   <table className="table table-striped p-4">
                     <thead>
                       <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">DOB </th>
+                        <th scope="col">DOB</th>
                         <th scope="col">Gender</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Patient ID</th>
-                        <th scope="col">Action </th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {patientList?.map((patient, index) => (
-                        <tr>
+                        <tr key={index}>
                           <td>{patient.firstname + " " + patient.lastname}</td>
                           <td>{dayjs(patient.dob).format("D-MMM-YYYY")}</td>
                           <td>{patient.gender}</td>
@@ -192,6 +193,7 @@ const SearchPatientModal = ({ show, onClose }) => {
                       ))}
                     </tbody>
                   </table>
+                </div>
                 ) : (
                   <>
                     <p className="text-center">

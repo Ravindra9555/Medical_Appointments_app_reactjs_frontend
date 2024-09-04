@@ -1,9 +1,10 @@
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { usePatient } from "../../context/PatientContext";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Loader from "../loader/Loader";
+import axios from "axios";
 
 const TodayDoctor = [
   {
@@ -114,6 +115,27 @@ const TodaysDocotorAvailable = () => {
   const [loading, setLoading] = useState(false);
   const { patient } = usePatient();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+   const [doctorlist, setDoctorList]=useState([]);
+   useEffect(()=>{
+    //  setDoctorList(TodayDoctor);
+    // fetchDoctorList();
+   },[]);
+  
+ const fetchDoctorList =async()=>{
+  try {
+   setLoading(true);
+   const response = await  axios.get(`/api/`);
+    if(response.status==200) {
+      setDoctorList(response.data); 
+    }    
+  } catch (error) {
+    console.log(error);
+    
+  }
+  finally {
+    setLoading(false);
+  }
+ }
 
   const filteredItems = TodayDoctor.filter(
     (item) =>

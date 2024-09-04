@@ -17,6 +17,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import IssueMedicine from "./components/pages/IssueMedicine";
 import ViewMedicine from "./components/pages/ViewMedicine";
 import DoctorTiming from "./components/pages/DoctorTiming";
+import Labtest from "./components/pages/Labtest";
+import ViewLabtest from "./components/pages/ViewLabtest";
 function App() {
   return (
     <Router>
@@ -33,6 +35,8 @@ function App() {
           <Route path="issuemedicine" element={<IssueMedicine/>}/>
           <Route path="viewmedicine/:id" element={<ViewMedicine/>}/>
           <Route path="doctor" element={<DoctorTiming/>}/>
+          <Route path="labtest" element={<Labtest/>}/>
+          <Route path="viewtest/:id" element={<ViewLabtest/>}/>
           
         </Route>
         </Route>

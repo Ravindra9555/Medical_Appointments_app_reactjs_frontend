@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
+
 import dayjs from "dayjs";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import Swal from "sweetalert2";
@@ -50,7 +52,7 @@ const DoctorTiming = () => {
           <div className="profile d-flex flex-wrap m-1 bg-light justify-content-center rounded align-items-center p-1">
             <img
               className="img-fluid rounded-circle"
-              style={{ width: "80px" }}
+              style={{ maxWidth: "100px", maxHeight:"100px" }}
               src={doctor.image}
               alt="Profile"
             />
@@ -75,12 +77,12 @@ const DoctorTiming = () => {
                 showToolbar={false}
               />
               <div className="d-flex gap-2 mt-3">
-                <TimeField
+                <DesktopTimePicker
                   label="Start Time"
                   value={startTime}
                   onChange={handleStartTimeChange}
                 />
-                <TimeField
+                <DesktopTimePicker
                   label="End Time"
                   value={endTime}
                   onChange={handleEndTimeChange}

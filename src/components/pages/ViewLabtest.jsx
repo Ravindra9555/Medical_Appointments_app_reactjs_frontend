@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -5,7 +6,7 @@ import dayjs from "dayjs";
 import { ajax } from "jquery";
 import { toast, ToastContainer } from "react-toastify";
 
-const ViewMedicine = () => {
+const ViewLabtest = () => {
   const { id } = useParams();
   const [show, setShow] = useState(false);
   const [prescriptionData, setPrescriptionData] = useState({
@@ -46,7 +47,7 @@ const ViewMedicine = () => {
           mobile: result.mobilenumber,
           email: result.emailid,
           patientId: result.patientid,
-          medicines: res.data.medicineresult,
+          tests: res.data.labtestresult,
           doctorName: result.doctorname,
         });
         setShow(true);
@@ -61,10 +62,10 @@ const ViewMedicine = () => {
     try {
       const res = await axios.put(`/api/`);
       if (res.status === 200) {
-        alert("Prescription Issued Successfully");
+        alert("Test Completed ");
       }
     } catch (error) {
-      toast.error("Prescription Issued Error");
+      toast.success("Test Completed ");
     }
   };
 
@@ -73,7 +74,7 @@ const ViewMedicine = () => {
       <ToastContainer />
       {show && (
         <div className="container mt-4  border rounded pb-4">
-          <h5 className="text-center mt-2">Prescription Details</h5>
+          <h5 className="text-center mt-2">Lab Tests Details</h5>
           <div className="row p-3">
             <div className="col-md-4">
               <p className="m-0">
@@ -108,32 +109,28 @@ const ViewMedicine = () => {
           </div>
           <hr />
           <div className="rounded ">
-            <h6 className="text-center mt-3">Prescribed Medicines</h6>
+            <h6 className="text-center mt-3">Suggested Test</h6>
             <table className="table table-striped">
               <thead>
                 <tr>
-                  <th>Medicine Name</th>
-                  <th>Frequency</th>
-                  <th>Duration</th>
-                  <th>Dose</th>
-                  <th>Notes</th>
+                  <th>Test Name</th>
+                  <th>Test Type</th>
+                 
                 </tr>
               </thead>
               <tbody>
-                {prescriptionData.medicines.length > 0 ? (
-                  prescriptionData.medicines.map((medicine, index) => (
+                {prescriptionData.tests.length > 0 ? (
+                  prescriptionData.tests.map((test, index) => (
                     <tr key={index}>
-                      <td>{medicine.medicine_name}</td>
-                      <td>{medicine.frequencyname}</td>
-                      <td>{medicine.duration} days</td>
-                      <td>{medicine.dose}</td>
-                      <td>{medicine.notes}</td>
+                      <td>{test.suggestedtests}</td>
+                      <td>{test.testtype}</td>
+                      
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td colSpan="5" className="text-center">
-                      No medicines prescribed
+                      NO Test is Suggested 
                     </td>
                   </tr>
                 )}
@@ -161,7 +158,7 @@ const ViewMedicine = () => {
                 Back
               </button>
               <button className="btn btn-primary" onClick={isssued}>
-                Issue Medicine
+               Mark Done 
               </button>
             </div>
           </div>
@@ -171,4 +168,4 @@ const ViewMedicine = () => {
   );
 };
 
-export default ViewMedicine;
+export default ViewLabtest;

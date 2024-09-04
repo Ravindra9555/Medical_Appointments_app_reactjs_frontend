@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { usePatient } from "../../context/PatientContext";
+import { useDoctor } from "../../context/DoctorContext";
 import dayjs from "dayjs";
 const SidebarNav = () => {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ const SidebarNav = () => {
       label: "Issue Medicine",
       icon: "bi-capsule-pill",
       url: "/issuemedicine",
+      children: [],
+    },
+    {
+      label: "Lab Tests",
+      icon: "bi-eyedropper",
+      url: "/labtest",
       children: [],
     },
     // {
@@ -51,7 +58,7 @@ const SidebarNav = () => {
     profile: "https://via.placeholder.com/100",
   };
  const {patient}= usePatient();
-   
+ const {doctor} = useDoctor();
   const logOut = () => navigate("/");
 
   return (
@@ -59,14 +66,14 @@ const SidebarNav = () => {
       <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
         <div className="d-flex align-items-center pb-3 mb-md-0 me-md-auto  text-decoration-none  ">
           {/* <span className="fs-5 d-none d-sm-inline text-black">Menu</span> */}
-          {doc && doc.id == "" ? (
+          {doctor && doctor.id == "" ? (
             <></>
           ) : (
             <>
               <div className="patients-card  d-none d-md-inline  container-fluid text-center  bg-light  border rounded p-2  ">
                 <img
                   className="img-fluid"
-                  src={doc.profile}
+                  src={doctor.profile || 'https://via.placeholder.com/100'}
                   // src={`${process.env.REACT_APP_IMAGEURL}/${patient.profile}`}
                   alt="Profile Image"
                   loading="lazy"
@@ -77,15 +84,15 @@ const SidebarNav = () => {
                   }}
                 />
                 <p className="fs-6 fw-bold text-uppercase mb-0 text-black">
-                  {doc.Name}
+                  {doctor.doctorname}
                 </p>
                 <small className="m-0 ">
-                  ID : <b>{doc.patientId}</b>
+                  ID : <b>{doctor.id}</b>
                 </small>
                 <br />
 
                 <small className="m-0">
-                  Role:<b> {doc.role}</b>
+                  Role:<b> {doctor.role}</b>
                 </small>
               </div>
             </>

@@ -33,6 +33,7 @@ export const DoctorProvider = ({ children }) => {
       doctorname: "",
       mobilenumber: "",
       emailid: "",
+      role:"Admin",
     };
   });
 

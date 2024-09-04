@@ -52,6 +52,7 @@ export const BookAppointment = () => {
     date: "",
     time: "",
   });
+
   const [selectedDoctor, setSelectedDoctor] = useState({});
 
   const selectDoc = (index) => {
@@ -70,6 +71,7 @@ export const BookAppointment = () => {
   const maxDate = dayjs().add(6, "month");
 
   const BookAppoint = () => {
+    console.log(  formData)
     Swal.fire({
       title: "Confirm Appointment",
       html: `Your appointment is booked with ${
@@ -193,10 +195,7 @@ export const BookAppointment = () => {
                 value={bookingDate}
                 onChange={(selectedDate) => {
                   setBookingDate(selectedDate);
-                  console.log(
-                    "Selected date:",
-                    dayjs(selectedDate).format("YYYY-MM-DD")
-                  );
+                  setFormData({...formData, date: dayjs(selectedDate).format('YYYY-MM-DD')});
                 }}
                 minDate={dayjs()}
                 maxDate={maxDate}

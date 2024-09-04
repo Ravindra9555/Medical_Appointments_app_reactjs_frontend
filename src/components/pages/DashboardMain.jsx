@@ -10,9 +10,12 @@ import SearchPatientModal from "../SearchPatientModal";
 
 import dayjs from "dayjs";
 import { useDoctor } from "../../context/DoctorContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import axios from "axios";
 
 const DashboardMain = () => {
-  const today1 = dayjs(new Date()).format("D-MMM-YYYY");
   const [searchQuery, setSearchQuery] = useState("");
   const { doctor } = useDoctor();
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +32,7 @@ const DashboardMain = () => {
       Age: "15",
       sex: "Male",
       issue: "Gastric issue",
+      status: "completed",
     },
     {
       id: 2,
@@ -39,6 +43,18 @@ const DashboardMain = () => {
       photo: "https://via.placeholder.com/100",
       time: "11:00 AM",
       issue: "Migraine",
+      status: "pending",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      patientId: "123",
+      Age: "15",
+      sex: "Male",
+      photo: "https://via.placeholder.com/100",
+      time: "11:00 AM",
+      issue: "Migraine",
+      status: "arrived",
     },
     {
       id: 3,
@@ -49,22 +65,54 @@ const DashboardMain = () => {
       photo: "https://via.placeholder.com/100",
       time: "12:00 PM",
       issue: "Abdominal Pain",
+      status: "completed",
     },
   ];
 
   const [activeButton, setActiveButton] = useState("Today");
   const [filteredAppointments, setFilteredAppointments] = useState(appointments1);
+  const [appointmentList, setAppointmentList] = useState([]);
+  const [date, setDate] = useState(new Date());
+//   fetch the all appointments 
+  useEffect(() => {
+    // fetchAppointments();
+  }, [date]);
+
+  const fetchAppointments = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/api/v1/doctor/getDoctorAppointments`,
+        {
+          params: {
+            doctorId: doctor.id,
+            date: dayjs(date).format("YYYY-MM-DD"),
+          },
+        }
+      );
+      setAppointmentList(response.data.appointments);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
+
+// Filter the appointment  With status 
 
   const handleButtonClick = (buttonType) => {
     setActiveButton(buttonType);
     if (buttonType === "Today") {
       setFilteredAppointments(appointments1); // Show today's appointments
     } else if (buttonType === "Arrived") {
-      setFilteredAppointments(appointments1.filter((appt) => appt.id !== 2)); // Example filter for arrived
+      setFilteredAppointments(
+        appointments1.filter((appt) => appt.status === "arrived")
+      ); // Example filter for arrived
     } else if (buttonType === "Completed") {
-      setFilteredAppointments(appointments1.filter((appt) => appt.id === 3)); // Example filter for completed
+      setFilteredAppointments(
+        appointments1.filter((appt) => appt.status === "completed")
+      ); // Example filter for completed
     }
   };
+
+  //  function  to search  appointments from List  
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -82,6 +130,16 @@ const DashboardMain = () => {
     }
   };
 
+  //  function to chhange date  and  fetch appointment  according to date 
+  const changeDate = (date) => {
+    if (date) {
+      setDate(date);
+      console.log("Date selected:", dayjs(date).format("YYYY-MM-DD"));
+    } else {
+      console.log("No date selected");
+    }
+  };
+
   return (
     <div className="container mt-2">
       <SearchPatientModal
@@ -90,24 +148,28 @@ const DashboardMain = () => {
         className="modal fade"
       />
 
-      <div className="row">
+      <div className="row p-2 bg-light mt-2 mb-2 rounded">
         <div className="col-md-6">
           <h5>OPD Appointment List</h5>
-          <p className="m-0">
+          <p className="m-0 mb-2">
+            {loaction}
             <FontAwesomeIcon
               icon={faLocationDot}
-              className="fs-4 text-primary me-2"
+              className="fs-4 text-primary ms-2"
             />
-            {loaction}
           </p>
 
-          <p className="m-0">
-            <FontAwesomeIcon
-              icon={faCalendar}
-              className="fs-4 text-primary me-2"
+          <LocalizationProvider
+            className="text-primary mt-2"
+            dateAdapter={AdapterDayjs}
+          >
+            <DatePicker
+              label={"Date"}
+              // views={["day", "month", "year"]}
+              value={dayjs()}
+              onChange={changeDate}
             />
-            {today1}
-          </p>
+          </LocalizationProvider>
         </div>
         <div className="col-md-6 d-flex justify-content-end">
           <div className="text-center">
@@ -125,7 +187,11 @@ const DashboardMain = () => {
       <div className="row mb-2">
         <div className="col-md-4">
           <button
-            className={`btn w-100 ${activeButton === "Today" ? "btn btn-outline-primary" : "bg-secondary-subtle"}`}
+            className={`btn w-100 ${
+              activeButton === "Today"
+                ? "btn btn-outline-primary"
+                : "bg-secondary-subtle"
+            }`}
             onClick={() => handleButtonClick("Today")}
           >
             Today
@@ -133,7 +199,11 @@ const DashboardMain = () => {
         </div>
         <div className="col-md-4">
           <button
-            className={`btn w-100 ${activeButton === "Arrived" ? "btn btn-outline-primary" : "bg-secondary-subtle"}`}
+            className={`btn w-100 ${
+              activeButton === "Arrived"
+                ? "btn btn-outline-primary"
+                : "bg-secondary-subtle"
+            }`}
             onClick={() => handleButtonClick("Arrived")}
           >
             Arrived
@@ -141,7 +211,11 @@ const DashboardMain = () => {
         </div>
         <div className="col-md-4">
           <button
-            className={`btn w-100 ${activeButton === "Completed" ? "btn btn-outline-primary" : "bg-secondary-subtle"}`}
+            className={`btn w-100 ${
+              activeButton === "Completed"
+                ? "btn btn-outline-primary"
+                : "bg-secondary-subtle"
+            }`}
             onClick={() => handleButtonClick("Completed")}
           >
             Completed
@@ -174,10 +248,7 @@ const DashboardMain = () => {
         <h4>{activeButton}'s Appointments</h4>
         <div className="list-group">
           {filteredAppointments.map((appointment) => (
-            <div
-              key={appointment.id}
-              className="m-2 bg-body-tertiary rounded"
-            >
+            <div key={appointment.id} className="m-2 bg-body-tertiary rounded">
               <div className="row">
                 <div className="col-sm-2">
                   <img
